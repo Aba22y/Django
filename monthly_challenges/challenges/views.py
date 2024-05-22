@@ -19,6 +19,13 @@ months = {
 
 # Create your views here.
 
+def index(req):
+    listItems = ""
+    for month in list(months.keys()):
+        url = reverse("month-challenge", args=[month])
+        listItems += f"<li><a href=\"{url}\">{month.capitalize()}</a></li>"
+    htmlList = f"<ul>{listItems}</ul>"
+    return HttpResponse(htmlList)
 
 def monthly_challenge_numbers(req, month):
     monthList = list(months.keys())
@@ -32,6 +39,7 @@ def monthly_challenge_numbers(req, month):
 def monthly_challenge(req, month):
     try:
         challenge = months[month]
-        return HttpResponse(challenge)
+        responseHTML = f"<h1>{challenge}</h1>"
+        return HttpResponse(responseHTML)
     except:
-        return HttpResponseNotFound("Type in a three letter month")
+        return HttpResponseNotFound("<h1>Type in a three letter month</h1>")
